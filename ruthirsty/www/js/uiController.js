@@ -65,8 +65,20 @@ const UIController = {
      */
     updateCounter() {
         const total = DataManager.getTodayTotal();
+
+        // Add updating animation class
+        this.elements.glassCount.classList.add('updating');
+        this.elements.mlCount.classList.add('updating');
+
+        // Update values
         this.elements.glassCount.textContent = total.glasses;
         this.elements.mlCount.textContent = total.ml;
+
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            this.elements.glassCount.classList.remove('updating');
+            this.elements.mlCount.classList.remove('updating');
+        }, 600);
     },
 
     /**
@@ -99,7 +111,7 @@ const UIController = {
         const timeDisplay = record.time.substring(0, 5);
 
         return `
-            <div class="record-item">
+            <div class="record-item" style="animation-delay: 0s;">
                 <div class="record-time">${timeDisplay}</div>
                 <div class="record-amount">${record.amount}ml</div>
             </div>
@@ -110,13 +122,20 @@ const UIController = {
      * Show success feedback animation
      */
     showSuccessFeedback() {
-        const originalText = this.elements.checkInBtn.textContent;
-        this.elements.checkInBtn.textContent = '✓ Added!';
-        this.elements.checkInBtn.style.background = 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)';
+        const buttonIcon = this.elements.checkInBtn.querySelector('.button-icon');
+        const buttonText = this.elements.checkInBtn.querySelector('.button-text');
+        const originalText = buttonText.textContent;
+        const originalIcon = buttonIcon.textContent;
+
+        // Update button content
+        buttonIcon.textContent = '✓';
+        buttonText.textContent = 'Added!';
+        this.elements.checkInBtn.classList.add('success');
 
         setTimeout(() => {
-            this.elements.checkInBtn.textContent = originalText;
-            this.elements.checkInBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-        }, 1000);
+            buttonIcon.textContent = originalIcon;
+            buttonText.textContent = originalText;
+            this.elements.checkInBtn.classList.remove('success');
+        }, 1200);
     }
 };

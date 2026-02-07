@@ -2,18 +2,20 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; media-src *; img-src 'self' data: content:; font-src 'self' https://fonts.gstatic.com;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <meta name="color-scheme" content="light">
+        <meta name="color-scheme" content="dark light">
+        <meta name="theme-color" content="#0f172a">
         <link rel="stylesheet" href="css/style.css">
-        <title>RUthirsty</title>
+        <title>RUthirsty - Water Tracking</title>
     </head>
     <body>
         <div class="app">
             <header>
                 <h1>💧 RUthirsty</h1>
+                <p class="header-subtitle">Stay Hydrated, Stay Healthy</p>
             </header>
 
             <main>
@@ -21,24 +23,28 @@
                     <h2>Today's Water Intake</h2>
                     <div class="counter-display">
                         <div class="counter-value">
-                            <span id="glassCount">0</span> glasses
+                            <span id="glassCount">0</span>
+                            <span class="counter-label">glasses</span>
                         </div>
+                        <div class="counter-divider"></div>
                         <div class="counter-ml">
-                            <span id="mlCount">0</span> ml
+                            <span id="mlCount">0</span>
+                            <span class="counter-label">ml</span>
                         </div>
                     </div>
                 </section>
 
                 <section class="action-section">
-                    <button id="checkInBtn" class="check-in-button">
-                        💧 Drink Water
+                    <button id="checkInBtn" class="check-in-button" aria-label="Log water intake">
+                        <span class="button-icon">💧</span>
+                        <span class="button-text">Drink Water</span>
                     </button>
                 </section>
 
                 <section class="records-section">
                     <h3>Today's Records</h3>
                     <div id="recordsList" class="records-list">
-                        <p class="empty-message">No water logged yet today. Tap the button above to start!</p>
+                        <p class="empty-message">No water logged yet today.<br>Tap the button above to start tracking!</p>
                     </div>
                 </section>
             </main>
