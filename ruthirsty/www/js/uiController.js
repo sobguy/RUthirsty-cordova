@@ -7,7 +7,14 @@ const UIController = {
         glassCount: null,
         mlCount: null,
         checkInBtn: null,
-        recordsList: null
+        recordsList: null,
+        settingsBtn: null,
+        settingsPanel: null,
+        closeSettingsBtn: null,
+        amountInput: null,
+        decreaseBtn: null,
+        increaseBtn: null,
+        saveSettingsBtn: null
     },
 
     /**
@@ -18,9 +25,17 @@ const UIController = {
         this.elements.mlCount = document.getElementById('mlCount');
         this.elements.checkInBtn = document.getElementById('checkInBtn');
         this.elements.recordsList = document.getElementById('recordsList');
+        this.elements.settingsBtn = document.getElementById('settingsBtn');
+        this.elements.settingsPanel = document.getElementById('settingsPanel');
+        this.elements.closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        this.elements.amountInput = document.getElementById('amountInput');
+        this.elements.decreaseBtn = document.getElementById('decreaseBtn');
+        this.elements.increaseBtn = document.getElementById('increaseBtn');
+        this.elements.saveSettingsBtn = document.getElementById('saveSettingsBtn');
 
         this.setupEventListeners();
         this.updateDisplay();
+        this.loadSettings();
     },
 
     /**
@@ -29,6 +44,40 @@ const UIController = {
     setupEventListeners() {
         this.elements.checkInBtn.addEventListener('click', () => {
             this.handleCheckIn();
+        });
+
+        // Settings panel event listeners
+        this.elements.settingsBtn.addEventListener('click', () => {
+            this.openSettings();
+        });
+
+        this.elements.closeSettingsBtn.addEventListener('click', () => {
+            this.closeSettings();
+        });
+
+        this.elements.settingsPanel.addEventListener('click', (e) => {
+            if (e.target === this.elements.settingsPanel) {
+                this.closeSettings();
+            }
+        });
+
+        this.elements.decreaseBtn.addEventListener('click', () => {
+            this.changeAmount(-50);
+        });
+
+        this.elements.increaseBtn.addEventListener('click', () => {
+            this.changeAmount(50);
+        });
+
+        this.elements.saveSettingsBtn.addEventListener('click', () => {
+            this.saveSettings();
+        });
+
+        // Allow Enter key to save settings
+        this.elements.amountInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.saveSettings();
+            }
         });
     },
 
@@ -137,5 +186,81 @@ const UIController = {
             buttonText.textContent = originalText;
             this.elements.checkInBtn.classList.remove('success');
         }, 1200);
+    },
+
+    /**
+     * Open settings panel
+     */
+    openSettings() {
+        this.loadSettings();
+        this.elements.settingsPanel.classList.add('active');
+    },
+
+    /**
+     * Close settings panel
+     */
+    closeSettings() {
+        this.elements.settingsPanel.classList.remove('active');
+    },
+
+    /**
+     * Load settings from DataManager
+     */
+    loadSettings() {
+        const amount = DataManager.getAmountPerGlass();
+        this.elements.amountInput.value = amount;
+    },
+
+    /**
+     * Change amount by delta
+     * @param {number} delta - Amount to change (positive or negative)
+     */
+    changeAmount(delta) {
+        let currentAmount = parseInt(this.elements.amountInput.value) || 250;
+        let newAmount = currentAmount + delta;
+
+        // Clamp between 50 and 1000
+        newAmount = Math.max(50, Math.min(1000, newAmount));
+
+        this.elements.amountInput.value = newAmount;
+
+        // Add animation feedback
+        this.elements.amountInput.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+            this.elements.amountInput.style.transform = 'scale(1)';
+        }, 200);
+    },
+
+    /**
+     * Save settings
+     */
+    saveSettings() {
+        let amount = parseInt(this.elements.amountInput.value);
+
+        // Validate amount
+        if (isNaN(amount) || amount < 50 || amount > 1000) {
+            alert('请输入有效的饮水量（50-1000毫升）');
+            this.loadSettings();
+            return;
+        }
+
+        // Round to nearest 50
+        amount = Math.round(amount / 50) * 50;
+        this.elements.amountInput.value = amount;
+
+        // Save to DataManager
+        DataManager.setAmountPerGlass(amount);
+
+        // Show success feedback
+        const saveBtn = this.elements.saveSettingsBtn;
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = '✓ 已保存！';
+        saveBtn.style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.4) 0%, rgba(20, 184, 166, 0.4) 100%)';
+
+        setTimeout(() => {
+            saveBtn.textContent = originalText;
+            saveBtn.style.background = '';
+            this.closeSettings();
+        }, 1000);
     }
 };

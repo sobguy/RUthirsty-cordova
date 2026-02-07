@@ -16,6 +16,7 @@
             <header>
                 <h1>💧 RUthirsty</h1>
                 <p class="header-subtitle">保持水分，保持健康</p>
+                <button id="settingsBtn" class="settings-btn" aria-label="设置">⚙️</button>
             </header>
 
             <main>
@@ -48,6 +49,33 @@
                     </div>
                 </section>
             </main>
+
+            <!-- 设置面板 -->
+            <div id="settingsPanel" class="settings-panel">
+                <div class="settings-content">
+                    <div class="settings-header">
+                        <h2>⚙️ 设置</h2>
+                        <button id="closeSettingsBtn" class="close-btn" aria-label="关闭">✕</button>
+                    </div>
+                    <div class="settings-body">
+                        <div class="setting-item">
+                            <label for="amountInput">每次喝水量</label>
+                            <div class="amount-input-group">
+                                <button id="decreaseBtn" class="amount-btn" aria-label="减少">−</button>
+                                <input type="number" id="amountInput" min="50" max="1000" step="50" value="250">
+                                <button id="increaseBtn" class="amount-btn" aria-label="增加">+</button>
+                                <span class="amount-unit">毫升</span>
+                            </div>
+                        </div>
+                        <div class="setting-description">
+                            建议每次饮水量：150-300毫升
+                        </div>
+                    </div>
+                    <div class="settings-footer">
+                        <button id="saveSettingsBtn" class="save-btn">保存设置</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="cordova.js"></script>
         <script src="js/dataManager.js"></script>

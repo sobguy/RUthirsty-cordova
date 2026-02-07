@@ -4,7 +4,53 @@
 
 const DataManager = {
     STORAGE_KEY: 'waterIntakeRecords',
-    AMOUNT_PER_GLASS: 250, // ml
+    SETTINGS_KEY: 'waterIntakeSettings',
+    DEFAULT_AMOUNT: 250, // ml
+
+    /**
+     * Get settings from localStorage
+     * @returns {Object} Settings object
+     */
+    getSettings() {
+        try {
+            const data = localStorage.getItem(this.SETTINGS_KEY);
+            return data ? JSON.parse(data) : { amountPerGlass: this.DEFAULT_AMOUNT };
+        } catch (error) {
+            console.error('Error reading settings from localStorage:', error);
+            return { amountPerGlass: this.DEFAULT_AMOUNT };
+        }
+    },
+
+    /**
+     * Save settings to localStorage
+     * @param {Object} settings - Settings object to save
+     */
+    saveSettings(settings) {
+        try {
+            localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(settings));
+        } catch (error) {
+            console.error('Error saving settings to localStorage:', error);
+        }
+    },
+
+    /**
+     * Get current amount per glass setting
+     * @returns {number} Amount in ml
+     */
+    getAmountPerGlass() {
+        const settings = this.getSettings();
+        return settings.amountPerGlass || this.DEFAULT_AMOUNT;
+    },
+
+    /**
+     * Update amount per glass setting
+     * @param {number} amount - New amount in ml
+     */
+    setAmountPerGlass(amount) {
+        const settings = this.getSettings();
+        settings.amountPerGlass = amount;
+        this.saveSettings(settings);
+    },
 
     /**
      * Get all records from localStorage
@@ -43,7 +89,7 @@ const DataManager = {
             timestamp: now.getTime(),
             date: this.formatDate(now),
             time: this.formatTime(now),
-            amount: this.AMOUNT_PER_GLASS
+            amount: this.getAmountPerGlass()
         };
 
         const records = this.getAllRecords();
