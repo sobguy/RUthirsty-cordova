@@ -89,7 +89,7 @@ const UIController = {
 
         if (records.length === 0) {
             this.elements.recordsList.innerHTML =
-                '<p class="empty-message">No water logged yet today. Tap the button above to start!</p>';
+                '<p class="empty-message">今天还没有记录。<br>点击上方按钮开始记录吧！</p>';
             return;
         }
 
@@ -129,7 +129,7 @@ const UIController = {
 
         // Update button content
         buttonIcon.textContent = '✓';
-        buttonText.textContent = 'Added!';
+        buttonText.textContent = '已记录！';
         this.elements.checkInBtn.classList.add('success');
 
         setTimeout(() => {
