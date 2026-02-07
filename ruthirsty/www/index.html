@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light">
+        <link rel="stylesheet" href="css/style.css">
+        <title>RUthirsty</title>
+    </head>
+    <body>
+        <div class="app">
+            <header>
+                <h1>💧 RUthirsty</h1>
+            </header>
+
+            <main>
+                <section class="counter-section">
+                    <h2>Today's Water Intake</h2>
+                    <div class="counter-display">
+                        <div class="counter-value">
+                            <span id="glassCount">0</span> glasses
+                        </div>
+                        <div class="counter-ml">
+                            <span id="mlCount">0</span> ml
+                        </div>
+                    </div>
+                </section>
+
+                <section class="action-section">
+                    <button id="checkInBtn" class="check-in-button">
+                        💧 Drink Water
+                    </button>
+                </section>
+
+                <section class="records-section">
+                    <h3>Today's Records</h3>
+                    <div id="recordsList" class="records-list">
+                        <p class="empty-message">No water logged yet today. Tap the button above to start!</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script src="cordova.js"></script>
+        <script src="js/dataManager.js"></script>
+        <script src="js/uiController.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
