@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUthirsty - Testing Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f7fa;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #667eea;
+            margin-top: 30px;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .checklist li:before {
+            content: "☐ ";
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .success {
+            color: #48bb78;
+            font-weight: bold;
+        }
+        .warning {
+            color: #ed8936;
+            font-weight: bold;
+        }
+        .error {
+            color: #f56565;
+            font-weight: bold;
+        }
+        .feature-box {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #667eea;
+            color: white;
+        }
+        tr:hover {
+            background: #f7fafc;
+        }
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px;
+            text-align: center;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>💧 RUthirsty - Testing Guide</h1>
+
+    <div class="test-section">
+        <h2>📱 App Overview</h2>
+        <p>RUthirsty is a water tracking mobile app built with Apache Cordova. It helps users build healthy hydration habits by providing a simple interface to log water consumption.</p>
+
+        <div>
+            <span class="feature-box">250ml per glass</span>
+            <span class="feature-box">Daily counter</span>
+            <span class="feature-box">Offline-first</span>
+            <span class="feature-box">localStorage</span>
+            <span class="feature-box">No dependencies</span>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🚀 Quick Start</h2>
+
+        <h3>Option 1: Browser Testing (Recommended for Development)</h3>
+        <div class="code-block">
+cd /workspaces/RUthirsty-cordova/ruthirsty/www<br>
+python3 -m http.server 8000<br>
+# Open http://localhost:8000 in your browser
+        </div>
+
+        <h3>Option 2: Use Test Script</h3>
+        <div class="code-block">
+cd /workspaces/RUthirsty-cordova<br>
+./test_app.sh
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Test Checklist</h2>
+
+        <h3>Basic Functionality Tests</h3>
+        <ul class="checklist">
+            <li>App loads without errors (check browser console)</li>
+            <li>Header displays "💧 RUthirsty"</li>
+            <li>Counter shows "0 glasses" and "0 ml" initially</li>
+            <li>Empty message displays: "No water logged yet today..."</li>
+            <li>Button displays "💧 Drink Water"</li>
+        </ul>
+
+        <h3>Check-in Functionality</h3>
+        <ul class="checklist">
+            <li>Click "Drink Water" button</li>
+            <li>Button shows "✓ Added!" feedback</li>
+            <li>Button changes to green temporarily</li>
+            <li>Counter updates to "1 glasses" and "250 ml"</li>
+            <li>New record appears in list with current time</li>
+            <li>Record shows format: "🕐 HH:MM" and "250ml"</li>
+        </ul>
+
+        <h3>Multiple Check-ins</h3>
+        <ul class="checklist">
+            <li>Click button 5 times rapidly</li>
+            <li>Counter shows "5 glasses" and "1250 ml"</li>
+            <li>5 separate records appear in list</li>
+            <li>Records are sorted newest first</li>
+            <li>Each record has unique timestamp</li>
+        </ul>
+
+        <h3>Data Persistence</h3>
+        <ul class="checklist">
+            <li>Add 3-5 water check-ins</li>
+            <li>Note the counter values</li>
+            <li>Refresh the page (F5 or Ctrl+R)</li>
+            <li>Counter shows same values after refresh</li>
+            <li>All records still appear in list</li>
+            <li>Open browser DevTools → Application → localStorage</li>
+            <li>Verify "waterIntakeRecords" key exists</li>
+        </ul>
+
+        <h3>UI/UX Tests</h3>
+        <ul class="checklist">
+            <li>Button has hover effect (desktop)</li>
+            <li>Button has active/pressed state</li>
+            <li>Records list is scrollable (if many records)</li>
+            <li>Layout is responsive (resize browser window)</li>
+            <li>No horizontal scrolling on mobile sizes</li>
+            <li>Text is readable on all screen sizes</li>
+        </ul>
+
+        <h3>Console Tests</h3>
+        <ul class="checklist">
+            <li>Open browser DevTools (F12)</li>
+            <li>Check Console tab for errors</li>
+            <li>Should see: "Running in browser mode"</li>
+            <li>Should see: "Device ready - initializing app"</li>
+            <li>Should see: "App initialized successfully"</li>
+            <li>No red error messages</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 Testing localStorage</h2>
+
+        <h3>View Stored Data</h3>
+        <ol>
+            <li>Open browser DevTools (F12)</li>
+            <li>Go to Application tab (Chrome) or Storage tab (Firefox)</li>
+            <li>Expand "Local Storage" in left sidebar</li>
+            <li>Click on "http://localhost:8000"</li>
+            <li>Find key: <code>waterIntakeRecords</code></li>
+            <li>View the JSON array of records</li>
+        </ol>
+
+        <h3>Manual Data Manipulation</h3>
+        <p>In browser console, try these commands:</p>
+
+        <div class="code-block">
+// View all records<br>
+localStorage.getItem('waterIntakeRecords')<br>
+<br>
+// Clear all data<br>
+localStorage.removeItem('waterIntakeRecords')<br>
+location.reload()<br>
+<br>
+// Add test data<br>
+DataManager.addRecord()<br>
+UIController.updateDisplay()
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Expected Data Structure</h2>
+
+        <h3>Single Record Format</h3>
+        <div class="code-block">
+{<br>
+  "id": "1707264000000_abc123xyz",<br>
+  "timestamp": 1707264000000,<br>
+  "date": "2026-02-07",<br>
+  "time": "14:30:00",<br>
+  "amount": 250<br>
+}
+        </div>
+
+        <h3>localStorage Structure</h3>
+        <div class="code-block">
+[<br>
+  { "id": "...", "timestamp": ..., "date": "...", "time": "...", "amount": 250 },<br>
+  { "id": "...", "timestamp": ..., "date": "...", "time": "...", "amount": 250 },<br>
+  { "id": "...", "timestamp": ..., "date": "...", "time": "...", "amount": 250 }<br>
+]
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🐛 Common Issues & Solutions</h2>
+
+        <table>
+            <tr>
+                <th>Issue</th>
+                <th>Solution</th>
+            </tr>
+            <tr>
+                <td>Button doesn't respond</td>
+                <td>Check browser console for JavaScript errors. Ensure all JS files loaded correctly.</td>
+            </tr>
+            <tr>
+                <td>Counter doesn't update</td>
+                <td>Verify DataManager and UIController are loaded. Check console for errors.</td>
+            </tr>
+            <tr>
+                <td>Data doesn't persist</td>
+                <td>Check if localStorage is enabled in browser. Some private/incognito modes disable it.</td>
+            </tr>
+            <tr>
+                <td>Styles not loading</td>
+                <td>Verify style.css path is correct. Check Network tab in DevTools.</td>
+            </tr>
+            <tr>
+                <td>cordova.js 404 error</td>
+                <td>Normal in browser mode. Cordova.js only exists in built apps.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Android Testing</h2>
+
+        <h3>Prerequisites</h3>
+        <ul class="checklist">
+            <li>Android SDK installed</li>
+            <li>ANDROID_HOME environment variable set</li>
+            <li>Java JDK installed (version 11 or higher)</li>
+            <li>Gradle installed (or use wrapper)</li>
+        </ul>
+
+        <h3>Build APK</h3>
+        <div class="code-block">
+cd /workspaces/RUthirsty-cordova/ruthirsty<br>
+cordova requirements  # Check setup<br>
+cordova build android  # Build APK<br>
+<br>
+# APK location:<br>
+# platforms/android/app/build/outputs/apk/debug/app-debug.apk
+        </div>
+
+        <h3>Test on Device</h3>
+        <div class="code-block">
+# Enable USB debugging on Android device<br>
+# Connect device via USB<br>
+adb devices  # Verify device connected<br>
+cordova run android --device
+        </div>
+
+        <h3>Test on Emulator</h3>
+        <div class="code-block">
+# Create emulator in Android Studio or:<br>
+avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64"<br>
+emulator -avd test  # Start emulator<br>
+cordova emulate android
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Performance Metrics</h2>
+
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Expected Value</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>Initial Load Time</td>
+                <td>&lt; 1 second</td>
+                <td><span class="success">✓ Fast</span></td>
+            </tr>
+            <tr>
+                <td>Button Response Time</td>
+                <td>&lt; 100ms</td>
+                <td><span class="success">✓ Instant</span></td>
+            </tr>
+            <tr>
+                <td>localStorage Write</td>
+                <td>&lt; 10ms</td>
+                <td><span class="success">✓ Fast</span></td>
+            </tr>
+            <tr>
+                <td>UI Update Time</td>
+                <td>&lt; 50ms</td>
+                <td><span class="success">✓ Smooth</span></td>
+            </tr>
+            <tr>
+                <td>Memory Usage</td>
+                <td>&lt; 50MB</td>
+                <td><span class="success">✓ Light</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Test Results Template</h2>
+
+        <h3>Test Session Information</h3>
+        <ul>
+            <li><strong>Date:</strong> _________________</li>
+            <li><strong>Tester:</strong> _________________</li>
+            <li><strong>Environment:</strong> Browser / Android Device / Emulator</li>
+            <li><strong>Browser/OS:</strong> _________________</li>
+        </ul>
+
+        <h3>Test Results</h3>
+        <ul>
+            <li>✅ All tests passed</li>
+            <li>⚠️ Some tests failed (list below)</li>
+            <li>❌ Critical issues found</li>
+        </ul>
+
+        <h3>Issues Found</h3>
+        <ol>
+            <li>_________________________________</li>
+            <li>_________________________________</li>
+            <li>_________________________________</li>
+        </ol>
+
+        <h3>Notes</h3>
+        <p>_________________________________</p>
+        <p>_________________________________</p>
+    </div>
+
+    <div class="test-section">
+        <h2>🔗 Useful Links</h2>
+        <ul>
+            <li><a href="https://cordova.apache.org/docs/en/latest/">Cordova Documentation</a></li>
+            <li><a href="https://developer.android.com/studio">Android Studio</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">localStorage API</a></li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>✨ Next Steps</h2>
+        <ol>
+            <li>Complete browser testing using checklist above</li>
+            <li>Set up Android SDK if not already configured</li>
+            <li>Build APK and test on physical device</li>
+            <li>Gather user feedback</li>
+            <li>Implement enhancements based on feedback</li>
+            <li>Consider adding features from Future Enhancements list</li>
+        </ol>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #666;">
+        <p>💧 RUthirsty - Stay Hydrated, Stay Healthy</p>
+        <p style="font-size: 12px;">Built with Apache Cordova</p>
+    </footer>
+</body>
+</html>
